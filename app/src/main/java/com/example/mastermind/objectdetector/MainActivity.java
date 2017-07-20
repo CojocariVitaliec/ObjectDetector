@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
         startActivityForResult(checkIntent, TTS_CHECK);
 
-        // prepare textview to insert if database gets empty
+       
         zeroObjects = new TextView(this);
         zeroObjects.setText("There are no objects in your database yet."
                 + "\nStart by clicking the \"New Object\" button above");
@@ -183,9 +183,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
         }
     }
 
-    // creates a horizontal linear layout containing the thumbnail of the image
-    // in the given file together with its name
-    // and inserts it in the activity's scrollView
+    
     private void addImageThumbnail(File file, int index) {
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.HORIZONTAL);
@@ -216,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     int clickedImgIdx;
 
-    // creates a dialog to show a larger image of the clicked object
+    
     View.OnClickListener viewObject() {
         return new View.OnClickListener() {
             public void onClick(View view) {
@@ -260,16 +258,13 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                         File toBeDeteled = imageFiles.get(clickedImgIdx);
                         toBeDeteled.delete();
 
-                        // adjust UI
-                        imageFiles.remove(clickedImgIdx);
+                                  imageFiles.remove(clickedImgIdx);
                         scrollLinearLayout.removeViewAt(clickedImgIdx);
 
-                        // adjust recognizer
-                        recognizer.removeObject(clickedImgIdx);
+                          recognizer.removeObject(clickedImgIdx);
                         cameraView.enableView();
 
-                        // tell user
-                        if (isSynthesizerInitialized) {
+                                      if (isSynthesizerInitialized) {
                             synthesizer.speak(
                                     "Object "
                                             + toBeDeteled.getName().substring(
@@ -280,8 +275,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                                     TextToSpeech.QUEUE_FLUSH, null);
                         }
 
-                        // if database gets empty insert zeroObjects textview
-                        if (imageFiles.size() == 0) {
+                                                if (imageFiles.size() == 0) {
                             scrollLinearLayout.addView(zeroObjects);
                         }
                     }
@@ -391,14 +385,14 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // if TTS check
+        
         if (requestCode == TTS_CHECK) {
             if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS) {
-                // success, create the TTS instance
+                
                 synthesizer = new TextToSpeech(this, new TTSInitListener());
                 synthesizer.setLanguage(Locale.US);
             } else {
-                // missing data, install it
+                
                 Intent installIntent = new Intent();
                 installIntent
                         .setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
@@ -419,11 +413,8 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 } catch (IOException e) {
 
                 }
-
                 tempFile.delete();
-
-                // apply change to UI
-                // if database was previously empty, remove zeroObjects textview
+                
                 if (imageFiles.size() == 0) {
                     scrollLinearLayout.removeView(zeroObjects);
                 }
