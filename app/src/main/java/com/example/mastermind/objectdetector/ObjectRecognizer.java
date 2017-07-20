@@ -75,7 +75,6 @@ public class ObjectRecognizer {
 		return match(keypoints, descriptors, matches, matchingStrategy);
 	}
 
-	// Parameters for matching
 	public static final double RATIO_TEST_RATIO = 0.92;
 	public static final int RATIO_TEST_MIN_NUM_MATCHES = 32;
 
@@ -92,8 +91,7 @@ public class ObjectRecognizer {
 		return getDetectedObjIndex(matches, minNumMatches);
 	}
 
-	// adds to the matches list matches that satisfy the ratio test with ratio
-	// ratio
+	
 	private void getMatches_ratioTest(Mat descriptors,
 									  List<MatOfDMatch> matches, double ratio) {
 		LinkedList<MatOfDMatch> knnMatches = new LinkedList<MatOfDMatch>();
@@ -111,13 +109,7 @@ public class ObjectRecognizer {
 		}
 	}
 
-	// uses the list of matches to count the number of matches to each database
-	// object. The object with the maximum such number nmax is considered to
-	// have been recognized if nmax > minNumMatches.
-	// if for a query descriptor there exists multiple matches to train
-	// descriptors of the same train image, all such matches are counted as only
-	// one match.
-	// returns the name of the object detected, or "-" if no object is detected.
+	
 	private String getDetectedObjIndex(List<MatOfDMatch> matches,
 									   int minNumMatches) {
 		numMatchesInImage = new int[trainImages.size()];
